@@ -48,16 +48,23 @@ def score(plaintext):
     """
     Based on chi-squared testing.
     """
-    plaintext = plaintext.lower()
-
-    chi_squared = 0
+    ignored = 0
+    freq = {}
     for char in plaintext:
-        if not char in english_freq:
+        if not char.lower() in english_freq:
+            ignored += 1
+            continue
+        elif char.lower() in freq:
             continue
 
-        occurrences = plaintext.count(char) / len(plaintext)
-        occurrences_expected = english_freq[char] * len(plaintext)
+        freq[char.lower()] = plaintext.count(char)
 
-        chi_squared += ((occurrences - occurrences_expected) ** 2) / occurrences_expected
+    msg_len = len(plaintext) - ignored
+    chi_squared = 0
+    for letter, count in freq.items():
+        observed = freq[letter.lower()]
+        expected = english_freq[letter.lower()] * msg_len
+
+        chi_squared += ((observed - expected) ** 2 ) / expected
 
     return chi_squared
