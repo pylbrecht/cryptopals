@@ -1,5 +1,6 @@
 import binascii
 import base64
+from itertools import cycle
 
 
 def hex_to_base64(value: str) -> str:
@@ -25,3 +26,9 @@ def score(text: str) -> int:
 
 def decrypt(cipher: bytes, key: int) -> bytes:
     return bytearray(c ^ key for c in bytearray.fromhex(cipher))
+
+
+def repeating_key_xor(plaintext: str, key: str) -> str:
+    return bytearray(
+        byte ^ key for byte, key in zip(plaintext.encode(), cycle(key.encode()))
+    ).hex()
