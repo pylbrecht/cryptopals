@@ -32,3 +32,14 @@ def repeating_key_xor(plaintext: str, key: str) -> str:
     return bytearray(
         byte ^ key for byte, key in zip(plaintext.encode(), cycle(key.encode()))
     ).hex()
+
+
+def hamming_distance(a: str, b: str) -> int:
+    xord = bytearray(x ^ y for x, y in zip(a.encode(), b.encode()))
+    total = 0
+    for x in xord:
+        for bit in bin(x)[2:]:
+            if bit != "1":
+                continue
+            total += 1
+    return total

@@ -26,3 +26,9 @@ def test_repeating_key_xor():
     )
     key = "ICE"
     assert utils.repeating_key_xor(plaintext, key) == cipher
+
+
+def test_hamming_distance():
+    a = "this is a test"
+    b = "wokka wokka!!!"
+    assert utils.hamming_distance(a, b) == 37
